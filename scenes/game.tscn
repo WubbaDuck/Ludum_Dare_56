@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://ti2j1t7sduip"]
+
+[ext_resource type="Script" path="res://scripts/honeycombGenerator.gd" id="1_ajnq8"]
+
+[sub_resource type="Environment" id="Environment_nnapm"]
+ambient_light_source = 3
+ambient_light_color = Color(0.960784, 0.937255, 0.490196, 1)
+ambient_light_energy = 0.75
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_qcnho"]
+
+[sub_resource type="Compositor" id="Compositor_oxens"]
+
+[node name="Game" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.162396, 0.986726, 0, -0.986726, 0.162396, 0, 11.0918, 1.98405)
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 0.590634, 0.80694, 0, -0.80694, 0.590634, 0, 10.1845, 15.1292)
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nnapm")
+camera_attributes = SubResource("CameraAttributesPractical_qcnho")
+compositor = SubResource("Compositor_oxens")
+
+[node name="HoneyCombGenerator" type="Node3D" parent="."]
+script = ExtResource("1_ajnq8")
+honeycombCount = 19
