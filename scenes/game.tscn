@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ti2j1t7sduip"]
 
-[ext_resource type="Script" path="res://scripts/honeycombGenerator.gd" id="1_ajnq8"]
+[ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
 
 [sub_resource type="Environment" id="Environment_nnapm"]
 ambient_light_source = 3
@@ -14,7 +14,7 @@ ambient_light_energy = 0.75
 [node name="Game" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.162396, 0.986726, 0, -0.986726, 0.162396, 0, 11.0918, 1.98405)
+transform = Transform3D(1, 0, 0, 0, 0.162396, 0.986726, 0, -0.986726, 0.162396, 86, 53.0918, 82.9841)
 
 [node name="Lights" type="Node3D" parent="."]
 
@@ -29,4 +29,5 @@ compositor = SubResource("Compositor_oxens")
 
 [node name="HoneyCombGenerator" type="Node3D" parent="."]
 script = ExtResource("1_ajnq8")
-honeycombCount = 19
+gridWidth = 100
+gridHeight = 100

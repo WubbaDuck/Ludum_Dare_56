@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://32x16kaqoe5a"]
+[gd_scene load_steps=4 format=3 uid="uid://32x16kaqoe5a"]
 
+[ext_resource type="Script" path="res://scripts/honeycomb.gd" id="1_5ovgr"]
 [ext_resource type="PackedScene" uid="uid://bkepd1b572efq" path="res://assets/honeyComb.blend" id="1_yhk65"]
 [ext_resource type="Material" uid="uid://cbscoqvhd66eo" path="res://materials/imphenzia.material" id="2_7mn43"]
 
 [node name="HoneyComb" type="Node3D"]
+script = ExtResource("1_5ovgr")
 
 [node name="honeyComb" parent="." instance=ExtResource("1_yhk65")]
 
