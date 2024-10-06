@@ -7,7 +7,7 @@ const moduleCamera: GDScript = preload("res://scripts/moduleCamera.gd")
 @onready var animationPlayer: AnimationPlayer = $workerBee/AnimationPlayer
 @onready var nectarSprite: Sprite3D = $NectarSprite
 @onready var honeySprite: Sprite3D = $HoneySprite
-
+@onready var audioPlayer = $AudioPlayer
 
 var selected: bool = false
 var selectable: bool = true
@@ -100,6 +100,11 @@ func _process(delta: float) -> void:
     honeySprite.visible = true
   else:
     honeySprite.visible = false
+  
+  if abs(velocity) > Vector3.ZERO && !collectingNectar:
+    audioPlayer.playSFX("walk")
+  else:
+    audioPlayer.stopSFX("walk")
 
   cumulativeDelta += delta
 
@@ -108,11 +113,14 @@ func _process(delta: float) -> void:
       if cumulativeDelta > 3.0:
         cumulativeDelta = 0
         honeyMakingTarget.cookHoney()
+        audioPlayer.playSFX("work")
     else:
       if cumulativeDelta > 1.0:
         cumulativeDelta = 0
-        nectarAmount -= nectarDepositAmount
-        honeyMakingTarget.addNectar(nectarDepositAmount)
+        if nectarAmount > 0:
+          nectarAmount -= nectarDepositAmount
+          if honeyMakingTarget.addNectar(nectarDepositAmount):
+            audioPlayer.playSFX("work")
 
     if honeyMakingTarget != null:
       if (honeyMakingTarget.fullOfNectar() && honeyMakingTarget.honeyFinished()) || nectarAmount == 0:
@@ -137,6 +145,9 @@ func _physics_process(delta: float) -> void:
     var direction: Vector3 = global_position.direction_to(currentTarget) * flySpeed
     rotateToDirection(direction, delta)
     global_position += direction * delta
+
+    if global_position.distance_to(posBeforeFlyingAway) < 30.0:
+      audioPlayer.playSFX("buzz")
 
     if flyBack and global_position.distance_to(posBeforeFlyingAway) < 1.0:
       global_position.y = 2.0
@@ -241,6 +252,7 @@ func finishCollectingNectar() -> void:
   flyBack = false
   flyAwayTarget = Vector3.ZERO
   posBeforeFlyingAway = Vector3.ZERO
+  audioPlayer.stopSFX("buzz")
 
 func flyAway() -> void:
   var xDir: float = 1 if randf_range(-1, 1) > 0 else -1
@@ -257,18 +269,3 @@ func finishMakingHoney() -> void:
   print("Honey Finished")
   makingHoney = false
   animationPlayer.play("Idle")
-  # collectingNectar = false
-  # selectable = true
-  # flyBack = false
-  # flyAwayTarget = Vector3.ZERO
-  # posBeforeFlyingAway = Vector3.ZERO
-  # nectarAmount = 0
-  # animationPlayer.play("Land")
-  # navPathTarget = Vector3.ZERO
-  # clearTargetMaterial()
-  # navTargetObject = null
-  # selected = false
-  # selectedSprite.visible = false
-  # animationPlayer.play("Idle")
-  # setTargetMaterial()
-  # pathRecalcTimer.start()

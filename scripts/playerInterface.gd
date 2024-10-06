@@ -3,6 +3,7 @@ extends Node2D
 @export var units: Node3D = null
 
 @onready var gameOverScreen: Control = $CanvasLayer/GameOverScreen
+@onready var audioPlayer = $AudioPlayer
 
 @onready var playerCamera: Node3D = $CameraBase
 @onready var uiSelectBox: NinePatchRect = $UISelectBox
@@ -231,7 +232,7 @@ func buttonHoneyPressed() -> void:
     thisUnit.honeyMakingMode = true
 
 func buttonBeePressed() -> void:
-  if honeyAmount > beeCost:
+  if honeyAmount >= beeCost:
     setHoneyAmount(honeyAmount - beeCost)
     setBeesTimer(beesTimerMaxSeconds)
 
@@ -277,6 +278,7 @@ func spawnWorkerBee() -> void:
   print(honeycomb.global_position)
   units.add_child(newWorker)
   newWorker.global_position = Vector3(honeycomb.global_position.x, queenBee.global_position.y, honeycomb.global_position.z)
+  audioPlayer.playSFX("newBee")
 
 func setHoneyAmount(amount: int) -> void:
   honeyAmount = amount
@@ -341,3 +343,9 @@ func onHoneyFull(amount: int) -> void:
 
 func _on_restart_button_pressed() -> void:
   get_tree().reload_current_scene()
+
+func onNectarAdded(amount: int) -> void:
+  setNectarAmount(nectarAmount + amount)
+
+func onNectarRemoved(amount: int) -> void:
+  setNectarAmount(nectarAmount - amount)

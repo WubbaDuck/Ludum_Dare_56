@@ -26,6 +26,8 @@ func generateHoneycombs():
       honeycombInstance.position = hex
       add_child(honeycombInstance)
       honeycombInstance.honeyFull.connect(onHoneyFull)
+      honeycombInstance.nectarAdded.connect(playerInterface.onNectarAdded)
+      honeycombInstance.nectarRemoved.connect(playerInterface.onNectarRemoved)
 
 func hexToWorld(comb: Honeycomb) -> Vector3:
   var coords = comb.getCoords()

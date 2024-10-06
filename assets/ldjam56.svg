@@ -431,9 +431,9 @@
       <g
          id="g50-46"
          inkscape:label="buttonBee"
-         inkscape:export-filename="buttonBee.png"
-         inkscape:export-xdpi="200"
-         inkscape:export-ydpi="200">
+         inkscape:export-filename="iconBee.png"
+         inkscape:export-xdpi="80"
+         inkscape:export-ydpi="80">
         <path
            sodipodi:type="star"
            style="fill:url(#linearGradient53);fill-rule:nonzero;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;paint-order:stroke markers fill"
@@ -886,9 +886,9 @@
       <g
          id="g50"
          inkscape:label="buttonHoney"
-         inkscape:export-filename="buttonHoney.png"
-         inkscape:export-xdpi="200"
-         inkscape:export-ydpi="200">
+         inkscape:export-filename="iconHoney.png"
+         inkscape:export-xdpi="80"
+         inkscape:export-ydpi="80">
         <path
            sodipodi:type="star"
            style="fill:url(#linearGradient44);fill-rule:nonzero;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;paint-order:stroke markers fill"
@@ -1189,9 +1189,9 @@
       <g
          id="g43"
          inkscape:label="buttonFlower"
-         inkscape:export-filename="buttonFlower.png"
-         inkscape:export-xdpi="200"
-         inkscape:export-ydpi="200">
+         inkscape:export-filename="iconFlower.png"
+         inkscape:export-xdpi="80"
+         inkscape:export-ydpi="80">
         <path
            sodipodi:type="star"
            style="fill:url(#linearGradient40-1);fill-rule:nonzero;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;paint-order:stroke markers fill"
@@ -1552,8 +1552,8 @@
        inkscape:label="flower"
        transform="translate(58.455375,0.77697346)"
        inkscape:export-filename="iconFlower.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200">
+       inkscape:export-xdpi="80"
+       inkscape:export-ydpi="80">
       <path
          style="fill:#d042ea;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.998775;paint-order:stroke markers fill"
          d="m 88.332237,116.09078 c 0,0 -0.833965,-2.38646 -0.630091,-3.36605 0.118445,-0.56911 0.488021,-0.87838 1.077295,-0.90654 0.558664,-0.0267 0.820063,0.0858 1.032468,0.58864 0.293968,1.04349 -0.266917,3.47963 -0.266917,3.47963"
@@ -1616,8 +1616,8 @@
        inkscape:label="honeySpoon"
        transform="translate(59.296127,0.35196281)"
        inkscape:export-filename="iconHoney.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200">
+       inkscape:export-xdpi="80"
+       inkscape:export-ydpi="80">
       <rect
          style="fill:#cf6124;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.697934;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.998775;paint-order:stroke markers fill"
          id="rect45-3-2"
@@ -1678,8 +1678,8 @@
        inkscape:label="bee"
        transform="translate(60.216852,19.14164)"
        inkscape:export-filename="iconBee.png"
-       inkscape:export-xdpi="200"
-       inkscape:export-ydpi="200">
+       inkscape:export-xdpi="80"
+       inkscape:export-ydpi="80">
       <path
          style="fill:#dcc624;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.998775;paint-order:stroke markers fill"
          id="path63-0-2"

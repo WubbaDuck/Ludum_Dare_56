@@ -23,6 +23,8 @@ var honeyAmount = 0
 var nectarFull = false
 
 signal honeyFull(amount: int)
+signal nectarAdded(amount: int)
+signal nectarRemoved(amount: int)
 
 func _ready() -> void:
   honeycombTop.material_override = topMaterialDefault
@@ -68,8 +70,12 @@ func setMaterialHighlight() -> void:
 func setMaterialDefault() -> void:
   honeycomb.material_override = null
 
-func addNectar(amount: int) -> void:
-  nectarAmount += amount
+func addNectar(amount: int) -> bool:
+  if honeyAmount < maxHoneyAmount && nectarAmount < maxNectarAmount:
+    nectarAmount += amount
+    nectarAdded.emit(amount)
+    return true
+  return false
 
 func fullOfNectar() -> bool:
   if !nectarFull:
@@ -80,10 +86,11 @@ func cookHoney() -> void:
   if nectarAmount > 0 && honeyAmount < maxHoneyAmount:
     honeyAmount += 1
     nectarAmount -= nectarPerHoney
+    nectarRemoved.emit(nectarPerHoney)
 
     if honeyAmount == maxHoneyAmount:
-      print("Honey Full")
-      emit_signal("honeyFull", honeyAmount)
+      # emit_signal("honeyFull", honeyAmount)
+      honeyFull.emit(honeyAmount)
     
 
 func honeyFinished() -> bool:

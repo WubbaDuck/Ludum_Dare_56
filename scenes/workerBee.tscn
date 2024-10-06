@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5ascu6cvm5yk"]
+[gd_scene load_steps=10 format=3 uid="uid://b5ascu6cvm5yk"]
 
 [ext_resource type="PackedScene" uid="uid://bckfx1piy18oh" path="res://assets/workerBee.blend" id="1_o1kqk"]
 [ext_resource type="Script" path="res://scripts/workerBee.gd" id="1_uj7jw"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dxnu7e17bdvn2" path="res://assets/buttonFlower.png" id="5_o5tr8"]
 [ext_resource type="Script" path="res://scripts/floatingIcon.gd" id="6_2tyya"]
 [ext_resource type="Texture2D" uid="uid://dbsc1mr32jina" path="res://assets/buttonHoney.png" id="7_k6uer"]
+[ext_resource type="Script" path="res://scripts/audioPlayer.gd" id="8_2aahn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ouq2b"]
 height = 2.25879
@@ -108,5 +109,8 @@ script = ExtResource("6_2tyya")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0318912, 3.25461, 0.0135307)
 texture = ExtResource("7_k6uer")
 script = ExtResource("6_2tyya")
+
+[node name="AudioPlayer" type="Node2D" parent="."]
+script = ExtResource("8_2aahn")
 
 [editable path="workerBee"]

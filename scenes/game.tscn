@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ti2j1t7sduip"]
+[gd_scene load_steps=32 format=3 uid="uid://ti2j1t7sduip"]
 
 [ext_resource type="Script" path="res://scripts/rtsCamera.gd" id="1_8au5g"]
 [ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://caeikje76agtc" path="res://assets/iconFlower.png" id="16_e5fhf"]
 [ext_resource type="PackedScene" uid="uid://dfux4eu30esbe" path="res://scenes/queenBee.tscn" id="17_mq21g"]
 [ext_resource type="Texture2D" uid="uid://dmcam3j78kuka" path="res://assets/iconBee.png" id="17_ympl5"]
+[ext_resource type="Script" path="res://scripts/audioPlayer.gd" id="18_alrdo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4rxc2"]
 sky_top_color = Color(0.983529, 0.883367, 0.395964, 1)
@@ -93,7 +94,7 @@ script = ExtResource("1_8au5g")
 transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="PlayerInterface/CameraBase/CameraSocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 71.5502, -45.0393, 62.9141)
 fov = 60.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="PlayerInterface"]
@@ -325,6 +326,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="GameOverScreen" type="Control" parent="PlayerInterface/CanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 397.0
@@ -350,6 +352,9 @@ offset_right = 623.0
 offset_bottom = 171.0
 text = "Restart"
 
+[node name="AudioPlayer" type="Node2D" parent="PlayerInterface"]
+script = ExtResource("18_alrdo")
+
 [node name="Lights" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights"]
@@ -368,31 +373,10 @@ playerInterface = NodePath("../PlayerInterface")
 [node name="Units" type="Node3D" parent="."]
 
 [node name="WorkerBee" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.7548, 2, 24.3892)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.1407, 2, 43.5016)
 
 [node name="WorkerBee2" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.9474, 2, 39.6806)
-
-[node name="WorkerBee3" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee4" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee5" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee6" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee7" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee8" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.4089, 1.91822, 30.1349)
-
-[node name="WorkerBee9" parent="Units" instance=ExtResource("5_5sbcu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.4089, 1.91822, 30.1349)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.5273, 2, 43.1626)
 
 [node name="QueenBee" parent="." instance=ExtResource("17_mq21g")]
 transform = Transform3D(1.25228, 0, 1.55942, 0, 2, 0, -1.55942, 0, 1.25228, 71.67, 2, 43.4116)
