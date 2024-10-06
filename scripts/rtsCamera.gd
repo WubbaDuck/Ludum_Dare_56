@@ -1,40 +1,40 @@
 extends Node3D
 
-@export_range(0,100,1) var cameraMoveSpeed:float = 50.0
+@export_range(0, 100, 1) var cameraMoveSpeed: float = 50.0
 
-var cameraZoomDirection:float = 0
-@export_range(0,100,1) var cameraZoomSpeed:float = 50.0
-@export_range(0,100,1) var cameraZoomMin:float = 0.0
-@export_range(0,100,1) var cameraZoomMax:float = 50.0
-@export_range(0,2,0.1) var cameraZoomSpeedDamp:float = 0.92
+var cameraZoomDirection: float = 0
+@export_range(0, 100, 1) var cameraZoomSpeed: float = 50.0
+@export_range(0, 100, 1) var cameraZoomMin: float = 0.0
+@export_range(0, 100, 1) var cameraZoomMax: float = 50.0
+@export_range(0, 2, 0.1) var cameraZoomSpeedDamp: float = 0.92
 
-@export_range(0,32,4) var cameraPanMargin: int = 16
-@export_range(0,100,1) var cameraPanSpeed:int = 40
+@export_range(0, 32, 4) var cameraPanMargin: int = 16
+@export_range(0, 100, 1) var cameraPanSpeed: int = 40
 
-@export_range(0,10,0.1) var cameraRotateSpeed:float = 3.0
-var cameraRotateDirection:float = 0
-var cameraSocketRotateDirection:float = 0
-@export_range(0,10,1) var cameraSocketRotationMin:float = -1.5
-@export_range(0,10,1) var cameraSocketRotationMax:float = -0.25
+@export_range(0, 10, 0.1) var cameraRotateSpeed: float = 3.0
+var cameraRotateDirection: float = 0
+var cameraSocketRotateDirection: float = 0
+@export_range(0, 10, 1) var cameraSocketRotationMin: float = -1.5
+@export_range(0, 10, 1) var cameraSocketRotationMax: float = -0.25
 
-var cameraCanMoveBase:bool = true
-var cameraCanProcess:bool = true
-var cameraCanZoom:bool = true
-var cameraCanPan:bool = true
-var cameraCanRotate:bool = true
-var cameraCanRotateSocket:bool = true
-var cameraCanRotateMouse:bool = false
-var cameraCanPanMouse:bool = false
+var cameraCanMoveBase: bool = true
+var cameraCanProcess: bool = true
+var cameraCanZoom: bool = true
+var cameraCanPan: bool = false
+var cameraCanRotate: bool = true
+var cameraCanRotateSocket: bool = true
+var cameraCanRotateMouse: bool = false
+var cameraCanPanMouse: bool = false
 
 var mouseLastPos: Vector2 = Vector2.ZERO
 
-@onready var cameraSocket:Node3D = $CameraSocket
-@onready var camera:Camera3D = $CameraSocket/Camera3D
+@onready var cameraSocket: Node3D = $CameraSocket
+@onready var camera: Camera3D = $CameraSocket/Camera3D
 
-func _ready() -> void :
+func _ready() -> void:
   pass
   
-func _process(delta:float) -> void:
+func _process(delta: float) -> void:
   if !cameraCanProcess: return
   cameraBaseMove(delta)
   cameraZoomUpdate(delta)
@@ -64,15 +64,15 @@ func _unhandled_input(_event: InputEvent) -> void:
   if _event.is_action_pressed("cameraPanMouse"):
     mouseLastPos = _event.get_position()
     cameraCanPanMouse = true
-    cameraCanPan = false
+    #cameraCanPan = false
   elif _event.is_action_released("cameraPanMouse"):
     cameraCanPanMouse = false
-    cameraCanPan = true
+    #cameraCanPan = true
   
-func cameraBaseMove(delta:float) -> void:
+func cameraBaseMove(delta: float) -> void:
   if !cameraCanMoveBase: return
 
-  var velocityDir:Vector3 = Vector3.ZERO
+  var velocityDir: Vector3 = Vector3.ZERO
 
   if Input.is_action_pressed("cameraForward"):
     velocityDir -= transform.basis.z
@@ -120,7 +120,7 @@ func cameraPanMouseUpdate(delta: float) -> void:
   mouseLastPos = get_viewport().get_mouse_position()
   var panDir: Vector3 = Vector3(mouseOffset.x, 0, mouseOffset.y)
   var worldPanDir: Vector3 = transform.basis * panDir
-  position -= worldPanDir * (cameraPanSpeed/15.0) * delta
+  position -= worldPanDir * (cameraPanSpeed / 15.0 * position.y / 8.0) * delta
 
 func cameraRotateUpdate(delta: float) -> void:
   if cameraCanRotate:
@@ -143,5 +143,8 @@ func cameraRotateMouse(delta: float) -> void:
   var mouseOffset: Vector2 = get_viewport().get_mouse_position() - mouseLastPos
   mouseLastPos = get_viewport().get_mouse_position()
 
-  cameraRotate(delta, -mouseOffset.x)
-  cameraSocketRotate(delta, mouseOffset.y)
+  cameraRotate(delta, -mouseOffset.x/10.0)
+  cameraSocketRotate(delta, mouseOffset.y/10.0)
+
+func getCameraSpaceFromWorldSpace(vec: Vector3) -> Vector2:
+  return camera.unproject_position(vec)

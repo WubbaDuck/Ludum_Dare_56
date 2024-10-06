@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/honeycomb.gd" id="1_5ovgr"]
 [ext_resource type="PackedScene" uid="uid://bkepd1b572efq" path="res://assets/honeyComb.blend" id="1_yhk65"]
-[ext_resource type="Material" uid="uid://cbscoqvhd66eo" path="res://materials/imphenzia.material" id="2_7mn43"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0p8xq"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
 
 [node name="HoneyComb" type="Node3D"]
 script = ExtResource("1_5ovgr")
@@ -10,6 +13,9 @@ script = ExtResource("1_5ovgr")
 [node name="honeyComb" parent="." instance=ExtResource("1_yhk65")]
 
 [node name="Honeycomb" parent="honeyComb" index="0"]
-material_override = ExtResource("2_7mn43")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000659943, -0.0118322, -0.00771618)
+
+[node name="HoneycombTop" parent="honeyComb" index="1"]
+material_override = SubResource("StandardMaterial3D_0p8xq")
 
 [editable path="honeyComb"]

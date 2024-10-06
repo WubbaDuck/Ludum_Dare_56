@@ -1,15 +1,19 @@
-extends Node
+extends NavigationRegion3D
 class_name HoneycombManager
 
-var honeycomb: PackedScene = preload("res://scenes/honeycomb.tscn")
 @export var gridWidth: int
 @export var gridHeight: int
+var honeycomb: PackedScene = preload("res://scenes/honeycomb.tscn")
 
 func _ready():
-  clearHoneycombs()
+  # clearHoneycombs()
   generateHoneycombs()
   for i in range(1000):
     removeRandomHoneycomb()
+
+  get_tree().process_frame.emit() # Force a frame to be processed so that the honeycombs are removed before we bake the navmesh
+
+  generateNavMesh()
 
 func generateHoneycombs():
   for x in range(gridWidth):
@@ -31,6 +35,7 @@ func hexToWorld(comb: Honeycomb) -> Vector3:
 
 func clearHoneycombs():
     for child in get_children():
+      if child is Honeycomb:
         child.queue_free()
 
 func removeRandomHoneycomb():
@@ -38,3 +43,11 @@ func removeRandomHoneycomb():
     if children.size() > 0:
         var randomIndex = randi() % children.size()
         children[randomIndex].queue_free()
+
+func generateNavMesh() -> void:
+  bake_finished.connect(onBakeFinished)
+  await get_tree().process_frame
+  bake_navigation_mesh(true)
+  
+func onBakeFinished() -> void:
+  print("Bake Finished")

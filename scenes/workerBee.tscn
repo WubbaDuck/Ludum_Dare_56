@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5ascu6cvm5yk"]
+
+[ext_resource type="PackedScene" uid="uid://bckfx1piy18oh" path="res://assets/workerBee.blend" id="1_o1kqk"]
+[ext_resource type="Script" path="res://scripts/workerBee.gd" id="1_uj7jw"]
+[ext_resource type="Texture2D" uid="uid://cpqbbe5eeicif" path="res://assets/selectionBox.png" id="2_3sd0e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vi220"]
+
+[node name="WorkerBee" type="CharacterBody3D"]
+script = ExtResource("1_uj7jw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.01089, 0)
+shape = SubResource("BoxShape3D_vi220")
+
+[node name="workerBee" parent="." instance=ExtResource("1_o1kqk")]
+
+[node name="Selected" type="Sprite3D" parent="."]
+modulate = Color(1, 1, 1, 0.529412)
+pixel_size = 0.3
+axis = 1
+texture = ExtResource("2_3sd0e")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.25
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="PathRecalcTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[node name="GravityRayCast" type="RayCast3D" parent="."]
+
+[editable path="workerBee"]

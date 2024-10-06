@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ti2j1t7sduip"]
+[gd_scene load_steps=10 format=3 uid="uid://ti2j1t7sduip"]
 
 [ext_resource type="Script" path="res://scripts/rtsCamera.gd" id="1_8au5g"]
 [ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
+[ext_resource type="Script" path="res://scripts/playerInterface.gd" id="1_jmxq8"]
+[ext_resource type="Texture2D" uid="uid://cpqbbe5eeicif" path="res://assets/selectionBox.png" id="2_joig7"]
+[ext_resource type="PackedScene" uid="uid://b5ascu6cvm5yk" path="res://scenes/workerBee.tscn" id="5_5sbcu"]
 
 [sub_resource type="Environment" id="Environment_nnapm"]
 ambient_light_source = 3
@@ -12,7 +15,42 @@ ambient_light_energy = 0.75
 
 [sub_resource type="Compositor" id="Compositor_oxens"]
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_dmgc2"]
+
 [node name="Game" type="Node3D"]
+
+[node name="PlayerInterface" type="Node2D" parent="." node_paths=PackedStringArray("units")]
+script = ExtResource("1_jmxq8")
+units = NodePath("../Units")
+
+[node name="UISelectBox" type="NinePatchRect" parent="PlayerInterface"]
+offset_left = 39.0
+offset_top = 30.0
+offset_right = 163.0
+offset_bottom = 165.0
+texture = ExtResource("2_joig7")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Button" type="Button" parent="PlayerInterface"]
+offset_left = 37.0
+offset_top = 999.0
+offset_right = 224.0
+offset_bottom = 1030.0
+text = "Player Test Interface"
+
+[node name="CameraBase" type="Node3D" parent="PlayerInterface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+script = ExtResource("1_8au5g")
+
+[node name="CameraSocket" type="Node3D" parent="PlayerInterface/CameraBase"]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="PlayerInterface/CameraBase/CameraSocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+fov = 60.0
 
 [node name="Lights" type="Node3D" parent="."]
 
@@ -25,18 +63,38 @@ environment = SubResource("Environment_nnapm")
 camera_attributes = SubResource("CameraAttributesPractical_qcnho")
 compositor = SubResource("Compositor_oxens")
 
-[node name="CameraBase" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
-script = ExtResource("1_8au5g")
-
-[node name="CameraSocket" type="Node3D" parent="CameraBase"]
-transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="CameraBase/CameraSocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-fov = 60.0
-
-[node name="HoneyCombGenerator" type="Node3D" parent="."]
+[node name="HoneycombNavRegion" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.141014, 0.134727, -0.136139)
+navigation_mesh = SubResource("NavigationMesh_dmgc2")
 script = ExtResource("1_ajnq8")
-gridWidth = 100
+gridWidth = 80
 gridHeight = 100
+
+[node name="Units" type="Node3D" parent="."]
+
+[node name="WorkerBee" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.7548, 2, 24.3892)
+
+[node name="WorkerBee2" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.9474, 2, 39.6806)
+
+[node name="WorkerBee3" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee4" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee5" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee6" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee7" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee8" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.4089, 1.91822, 30.1349)
+
+[node name="WorkerBee9" parent="Units" instance=ExtResource("5_5sbcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.4089, 1.91822, 30.1349)
