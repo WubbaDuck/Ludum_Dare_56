@@ -10,6 +10,7 @@ var selected: bool = false
 var navPathTarget: Vector3 = Vector3.ZERO
 var navTargetObject: Node3D = null
 
+var moveSpeed: float = 4.0
 var steerSpeed: float = 10.0
 var rotationFast: bool = false
 
@@ -62,8 +63,7 @@ func _physics_process(delta: float) -> void:
     return
 
   var nextPos:Vector3 = navAgent.get_next_path_position()
-  var direction:Vector3 = global_position.direction_to(nextPos) * navAgent.max_speed
-
+  var direction:Vector3 = global_position.direction_to(nextPos) * moveSpeed
   rotateToDirection(direction, delta)
 
   var steerVelocity:Vector3 = (direction - velocity) * steerSpeed * delta
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
   navAgent.set_velocity(newAgentVelocity)
 
 func move(newVelocity: Vector3) -> void:
-  velocity = newVelocity
+  velocity = newVelocity  
   move_and_slide()
 
 func rotateToDirection(dir: Vector3, delta: float) -> void:
@@ -79,7 +79,7 @@ func rotateToDirection(dir: Vector3, delta: float) -> void:
     rotation.y = atan2(-dir.x, -dir.z)
   else:
     var pos2D: Vector2 = Vector2(-transform.basis.z.x, -transform.basis.z.z)
-    var goal2D: Vector2 = Vector2(dir.x, dir.z)
+    var goal2D: Vector2 = Vector2(-dir.x, -dir.z)
     rotation.y -= pos2D.angle_to(goal2D) * steerSpeed * delta
 
 func navPathTimerUpdate() -> void:
@@ -87,6 +87,11 @@ func navPathTimerUpdate() -> void:
     navAgent.set_target_position(navPathTarget)
     stuckCheck()
     lastPos = global_position
+
+  if velocity != Vector3.ZERO:
+    animationPlayer.play("Walk")
+  else:
+    animationPlayer.play("Idle")
 
 func stuckCheck() -> void:
   if lastPos.distance_squared_to(position) < 0.8:

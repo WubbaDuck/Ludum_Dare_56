@@ -8,7 +8,8 @@ var honeycomb: PackedScene = preload("res://scenes/honeycomb.tscn")
 func _ready():
   # clearHoneycombs()
   generateHoneycombs()
-  for i in range(2000):
+  var childCount: int = get_child_count()
+  for i in range(childCount/5):
     removeRandomHoneycomb()
 
   get_tree().process_frame.emit() # Force a frame to be processed so that the honeycombs are removed before we bake the navmesh
@@ -51,3 +52,32 @@ func generateNavMesh() -> void:
   
 func onBakeFinished() -> void:
   print("Bake Finished")
+
+func getHoneycombAtCoords(coords: Vector2) -> Honeycomb:
+  for child in get_children():
+    if child is Honeycomb:
+      if child.getCoords() == coords:
+        return child
+  return null
+
+func getClosesetHoneycomb(pos: Vector3) -> Honeycomb:
+  var closestHoneycomb: Honeycomb = null
+  var closestDistance: float = 1000000
+  for child in get_children():
+    if child is Honeycomb:
+      var distance = child.global_position.distance_to(pos)
+      if distance < closestDistance:
+        closestDistance = distance
+        closestHoneycomb = child
+  return closestHoneycomb
+
+func getRandomHoneycombInRadius(pos: Vector3, radius: float, minDistance: float) -> Honeycomb:
+  var honeycombs: Array = []
+  for child in get_children():
+    if child is Honeycomb:
+      var distance = child.global_position.distance_to(pos)
+      if distance < radius and distance > minDistance:
+        honeycombs.append(child)
+  if honeycombs.size() > 0:
+    return honeycombs[randi() % honeycombs.size()]
+  return null

@@ -1,10 +1,25 @@
-[gd_scene load_steps=12 format=3 uid="uid://ti2j1t7sduip"]
+[gd_scene load_steps=30 format=3 uid="uid://ti2j1t7sduip"]
 
 [ext_resource type="Script" path="res://scripts/rtsCamera.gd" id="1_8au5g"]
 [ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
 [ext_resource type="Script" path="res://scripts/playerInterface.gd" id="1_jmxq8"]
 [ext_resource type="Texture2D" uid="uid://cpqbbe5eeicif" path="res://assets/selectionBox.png" id="2_joig7"]
+[ext_resource type="Texture2D" uid="uid://cntdm8uo2nvti" path="res://assets/skillMenuOutline.png" id="4_x46bd"]
 [ext_resource type="PackedScene" uid="uid://b5ascu6cvm5yk" path="res://scenes/workerBee.tscn" id="5_5sbcu"]
+[ext_resource type="Texture2D" uid="uid://b6ea8qhlroclr" path="res://assets/buttonBlank.png" id="5_if1ep"]
+[ext_resource type="Texture2D" uid="uid://dxnu7e17bdvn2" path="res://assets/buttonFlower.png" id="6_u20ga"]
+[ext_resource type="Texture2D" uid="uid://byydq4xa12uch" path="res://assets/buttonFlowerClicked.png" id="7_2rwps"]
+[ext_resource type="Texture2D" uid="uid://b1lk5jafadfn7" path="res://assets/buttonFlowerHovered.png" id="8_cgot6"]
+[ext_resource type="Texture2D" uid="uid://dbsc1mr32jina" path="res://assets/buttonHoney.png" id="8_hdncn"]
+[ext_resource type="Texture2D" uid="uid://bqj0cg0yshca6" path="res://assets/buttonHoneyClicked.png" id="9_a7byy"]
+[ext_resource type="Texture2D" uid="uid://d6iul72rwtyi" path="res://assets/buttonHoneyHovered.png" id="10_wilu0"]
+[ext_resource type="Texture2D" uid="uid://bqoqggiww6vwq" path="res://assets/buttonBee.png" id="11_liwm4"]
+[ext_resource type="Texture2D" uid="uid://co3bcp7rporcn" path="res://assets/buttonBeeClicked.png" id="12_4xs7f"]
+[ext_resource type="Texture2D" uid="uid://cccc7og3cs1vx" path="res://assets/buttonBeeHovered.png" id="13_8rav4"]
+[ext_resource type="Texture2D" uid="uid://8qq4rntiqa" path="res://assets/iconHoney.png" id="15_xux4n"]
+[ext_resource type="Texture2D" uid="uid://caeikje76agtc" path="res://assets/iconFlower.png" id="16_e5fhf"]
+[ext_resource type="PackedScene" uid="uid://dfux4eu30esbe" path="res://scenes/queenBee.tscn" id="17_mq21g"]
+[ext_resource type="Texture2D" uid="uid://dmcam3j78kuka" path="res://assets/iconBee.png" id="17_ympl5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4rxc2"]
 sky_top_color = Color(0.983529, 0.883367, 0.395964, 1)
@@ -30,6 +45,17 @@ glow_enabled = true
 
 [sub_resource type="Compositor" id="Compositor_oxens"]
 
+[sub_resource type="Gradient" id="Gradient_cacm2"]
+offsets = PackedFloat32Array(0.870017, 1)
+colors = PackedColorArray(0.196078, 0.117647, 0.0117647, 0.909804, 0.196078, 0.117647, 0.0117647, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dh3ps"]
+gradient = SubResource("Gradient_cacm2")
+width = 720
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jwoug"]
+texture = SubResource("GradientTexture2D_dh3ps")
+
 [sub_resource type="NavigationMesh" id="NavigationMesh_dmgc2"]
 
 [node name="Game" type="Node3D"]
@@ -39,9 +65,11 @@ environment = SubResource("Environment_nnapm")
 camera_attributes = SubResource("CameraAttributesPractical_qcnho")
 compositor = SubResource("Compositor_oxens")
 
-[node name="PlayerInterface" type="Node2D" parent="." node_paths=PackedStringArray("units")]
+[node name="PlayerInterface" type="Node2D" parent="." node_paths=PackedStringArray("units", "honeycombManager", "queenBee")]
 script = ExtResource("1_jmxq8")
 units = NodePath("../Units")
+honeycombManager = NodePath("../HoneycombNavRegion")
+queenBee = NodePath("../QueenBee")
 
 [node name="UISelectBox" type="NinePatchRect" parent="PlayerInterface"]
 offset_left = 39.0
@@ -54,13 +82,6 @@ patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 4
 
-[node name="Button" type="Button" parent="PlayerInterface"]
-offset_left = 37.0
-offset_top = 999.0
-offset_right = 224.0
-offset_bottom = 1030.0
-text = "Player Test Interface"
-
 [node name="CameraBase" type="Node3D" parent="PlayerInterface"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
 script = ExtResource("1_8au5g")
@@ -71,6 +92,234 @@ transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0,
 [node name="Camera3D" type="Camera3D" parent="PlayerInterface/CameraBase/CameraSocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 fov = 60.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PlayerInterface"]
+
+[node name="Panel" type="Panel" parent="PlayerInterface/CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -199.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_jwoug")
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerInterface/CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="SkillMenuPanel" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button1" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 132.0
+offset_bottom = 148.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("5_if1ep")
+
+[node name="ButtonFlower" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 74.0
+offset_top = 4.0
+offset_right = 199.0
+offset_bottom = 148.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("6_u20ga")
+texture_pressed = ExtResource("7_2rwps")
+texture_hover = ExtResource("8_cgot6")
+texture_disabled = ExtResource("5_if1ep")
+
+[node name="ButtonHoney" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 140.0
+offset_top = 4.0
+offset_right = 265.0
+offset_bottom = 148.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("8_hdncn")
+texture_pressed = ExtResource("9_a7byy")
+texture_hover = ExtResource("10_wilu0")
+texture_disabled = ExtResource("5_if1ep")
+
+[node name="Button4" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 40.0
+offset_top = 62.0
+offset_right = 165.0
+offset_bottom = 206.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("5_if1ep")
+
+[node name="Button5" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 107.0
+offset_top = 62.0
+offset_right = 232.0
+offset_bottom = 206.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("5_if1ep")
+
+[node name="ButtonBee" type="TextureButton" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 1
+offset_left = 173.0
+offset_top = 62.0
+offset_right = 298.0
+offset_bottom = 206.0
+scale = Vector2(0.487596, 0.487596)
+texture_normal = ExtResource("11_liwm4")
+texture_pressed = ExtResource("12_4xs7f")
+texture_hover = ExtResource("13_8rav4")
+texture_disabled = ExtResource("5_if1ep")
+
+[node name="SkillMenuOutline" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/SkillMenuPanel"]
+layout_mode = 2
+offset_left = 4.0
+offset_right = 237.228
+offset_bottom = 135.0
+mouse_filter = 2
+texture = ExtResource("4_x46bd")
+expand_mode = 3
+
+[node name="ResourcesPanel" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="HoneyIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("15_xux4n")
+
+[node name="HoneyLabel" type="Label" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+text = "Honey: 0"
+
+[node name="NectarIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("16_e5fhf")
+
+[node name="NectarLabel" type="Label" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+text = "Nectar: 0"
+
+[node name="BeesIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("17_ympl5")
+
+[node name="BeesLabel" type="Label" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer"]
+layout_mode = 2
+text = "Workers: 0"
+
+[node name="TimerPanel" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="HoneyIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("15_xux4n")
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+
+[node name="ProgressBarHoney" type="ProgressBar" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="NectarIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("16_e5fhf")
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+
+[node name="ProgressBarNectar" type="ProgressBar" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="BeesIcon" type="TextureRect" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("17_ympl5")
+
+[node name="MarginContainer3" type="MarginContainer" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+
+[node name="ProgressBarBees" type="ProgressBar" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer/TimerPanel/GridContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Panel3" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel4" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel5" type="Panel" parent="PlayerInterface/CanvasLayer/Panel/MarginContainer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Lights" type="Node3D" parent="."]
 
@@ -83,8 +332,8 @@ light_energy = 0.729
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.141014, 0.134727, -0.136139)
 navigation_mesh = SubResource("NavigationMesh_dmgc2")
 script = ExtResource("1_ajnq8")
-gridWidth = 80
-gridHeight = 100
+gridWidth = 75
+gridHeight = 60
 
 [node name="Units" type="Node3D" parent="."]
 
@@ -114,3 +363,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.4089, 1.91822, 30.1349)
 
 [node name="WorkerBee9" parent="Units" instance=ExtResource("5_5sbcu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.4089, 1.91822, 30.1349)
+
+[node name="QueenBee" parent="." instance=ExtResource("17_mq21g")]
+transform = Transform3D(1.25228, 0, 1.55942, 0, 2, 0, -1.55942, 0, 1.25228, 71.67, 2, 43.4116)

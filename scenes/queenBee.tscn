@@ -1,21 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5ascu6cvm5yk"]
+[gd_scene load_steps=7 format=3 uid="uid://dfux4eu30esbe"]
 
-[ext_resource type="PackedScene" uid="uid://bckfx1piy18oh" path="res://assets/workerBee.blend" id="1_o1kqk"]
-[ext_resource type="Script" path="res://scripts/workerBee.gd" id="1_uj7jw"]
-[ext_resource type="Texture2D" uid="uid://c44jm4rpvxq8v" path="res://assets/unitSelectionBox.png" id="3_jmtb5"]
-[ext_resource type="Script" path="res://scripts/unitSelectionIndicator.gd" id="4_fvkym"]
+[ext_resource type="Script" path="res://scripts/queenBee.gd" id="1_mcqli"]
+[ext_resource type="PackedScene" uid="uid://bckfx1piy18oh" path="res://assets/workerBee.blend" id="2_daqvt"]
+[ext_resource type="Material" uid="uid://cwd8mgkauan3d" path="res://materials/queenOverlay.tres" id="3_3cy8c"]
+[ext_resource type="Texture2D" uid="uid://c44jm4rpvxq8v" path="res://assets/unitSelectionBox.png" id="3_wulcc"]
+[ext_resource type="Script" path="res://scripts/unitSelectionIndicator.gd" id="4_062nl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ouq2b"]
 height = 2.25879
 
-[node name="WorkerBee" type="CharacterBody3D"]
-script = ExtResource("1_uj7jw")
+[node name="QueenBee" type="CharacterBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+script = ExtResource("1_mcqli")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 2, 0, -2, -8.74228e-08, 0.0381374, 1.33831, -0.705748)
 shape = SubResource("CapsuleShape3D_ouq2b")
 
-[node name="workerBee" parent="." instance=ExtResource("1_o1kqk")]
+[node name="workerBee" parent="." instance=ExtResource("2_daqvt")]
 
 [node name="Skeleton3D" parent="workerBee/Armature" index="0"]
 bones/0/position = Vector3(-2.01448e-12, 1.30329, -0.946363)
@@ -81,12 +83,15 @@ bones/44/position = Vector3(-0.846981, 2.2143, -2.97378)
 bones/44/rotation = Quaternion(-3.29133e-08, -0.424388, 5.0182e-16, 0.90548)
 bones/44/scale = Vector3(1, 1, 1)
 
+[node name="HoneyBee" parent="workerBee/Armature/Skeleton3D" index="0"]
+material_overlay = ExtResource("3_3cy8c")
+
 [node name="Selected" type="Sprite3D" parent="."]
 modulate = Color(0.65098, 0, 1, 1)
 pixel_size = 0.05
 axis = 1
-texture = ExtResource("3_jmtb5")
-script = ExtResource("4_fvkym")
+texture = ExtResource("3_wulcc")
+script = ExtResource("4_062nl")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 path_height_offset = 0.25
@@ -95,5 +100,9 @@ avoidance_enabled = true
 [node name="PathRecalcTimer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0128536, -0.00507379, -0.00340748)
+vertices = PackedVector3Array(0.121861, 0, 0.71042, 0.683582, 0, 0.726128, 0.928526, 0, -0.937354, 0.32303, 0, -2.17089, 0.00780613, 0, -2.42086, -0.28645, 0, -2.17562, -0.774118, 0, -1.27879, -0.976428, 0, -0.751661, -0.853937, 0, 0.753305)
 
 [editable path="workerBee"]
