@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5ascu6cvm5yk"]
+[gd_scene load_steps=9 format=3 uid="uid://b5ascu6cvm5yk"]
 
 [ext_resource type="PackedScene" uid="uid://bckfx1piy18oh" path="res://assets/workerBee.blend" id="1_o1kqk"]
 [ext_resource type="Script" path="res://scripts/workerBee.gd" id="1_uj7jw"]
 [ext_resource type="Texture2D" uid="uid://c44jm4rpvxq8v" path="res://assets/unitSelectionBox.png" id="3_jmtb5"]
 [ext_resource type="Script" path="res://scripts/unitSelectionIndicator.gd" id="4_fvkym"]
+[ext_resource type="Texture2D" uid="uid://dxnu7e17bdvn2" path="res://assets/buttonFlower.png" id="5_o5tr8"]
+[ext_resource type="Script" path="res://scripts/floatingIcon.gd" id="6_2tyya"]
+[ext_resource type="Texture2D" uid="uid://dbsc1mr32jina" path="res://assets/buttonHoney.png" id="7_k6uer"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ouq2b"]
 height = 2.25879
@@ -95,5 +98,15 @@ avoidance_enabled = true
 [node name="PathRecalcTimer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
+
+[node name="NectarSprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00107849, 3.28074, 0.295473)
+texture = ExtResource("5_o5tr8")
+script = ExtResource("6_2tyya")
+
+[node name="HoneySprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0318912, 3.25461, 0.0135307)
+texture = ExtResource("7_k6uer")
+script = ExtResource("6_2tyya")
 
 [editable path="workerBee"]

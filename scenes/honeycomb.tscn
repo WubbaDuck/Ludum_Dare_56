@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://32x16kaqoe5a"]
+[gd_scene load_steps=7 format=3 uid="uid://32x16kaqoe5a"]
 
 [ext_resource type="Script" path="res://scripts/honeycomb.gd" id="1_5ovgr"]
 [ext_resource type="PackedScene" uid="uid://bkepd1b572efq" path="res://assets/honeyComb.blend" id="1_yhk65"]
 [ext_resource type="Material" uid="uid://cohn7wyuw0cyv" path="res://materials/transparent.tres" id="3_xnksy"]
+[ext_resource type="Texture2D" uid="uid://dbsc1mr32jina" path="res://assets/buttonHoney.png" id="4_vv671"]
+[ext_resource type="Script" path="res://scripts/floatingIcon.gd" id="5_7i4t5"]
+[ext_resource type="Texture2D" uid="uid://dxnu7e17bdvn2" path="res://assets/buttonFlower.png" id="6_psoaa"]
 
 [node name="HoneyComb" type="Node3D"]
 script = ExtResource("1_5ovgr")
@@ -15,5 +18,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000659943, -0.0118322, -0.
 [node name="HoneycombTop" parent="honeyComb" index="1"]
 material_override = ExtResource("3_xnksy")
 cast_shadow = 0
+
+[node name="HoneySprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0318912, 2.89795, 0.0135307)
+texture = ExtResource("4_vv671")
+script = ExtResource("5_7i4t5")
+
+[node name="NectarSprite" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0286815, 2.90955, -0.0344791)
+texture = ExtResource("6_psoaa")
+script = ExtResource("5_7i4t5")
 
 [editable path="honeyComb"]

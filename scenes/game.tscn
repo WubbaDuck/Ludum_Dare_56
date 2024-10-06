@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ti2j1t7sduip"]
+[gd_scene load_steps=31 format=3 uid="uid://ti2j1t7sduip"]
 
 [ext_resource type="Script" path="res://scripts/rtsCamera.gd" id="1_8au5g"]
 [ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
@@ -55,6 +55,9 @@ width = 720
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jwoug"]
 texture = SubResource("GradientTexture2D_dh3ps")
+
+[sub_resource type="LabelSettings" id="LabelSettings_wu58a"]
+font_size = 80
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_dmgc2"]
 
@@ -321,6 +324,32 @@ self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="GameOverScreen" type="Control" parent="PlayerInterface/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 397.0
+offset_top = 336.0
+offset_right = 1481.0
+offset_bottom = 544.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameOverLabel" type="Label" parent="PlayerInterface/CanvasLayer/GameOverScreen"]
+layout_mode = 2
+offset_right = 1059.0
+offset_bottom = 110.0
+text = "You Collected: XXXX Honey!"
+label_settings = SubResource("LabelSettings_wu58a")
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="PlayerInterface/CanvasLayer/GameOverScreen"]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 119.0
+offset_right = 623.0
+offset_bottom = 171.0
+text = "Restart"
+
 [node name="Lights" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights"]
@@ -328,12 +357,13 @@ transform = Transform3D(1, 0, 0, 0, 0.590634, 0.80694, 0, -0.80694, 0.590634, 0,
 light_color = Color(0.877616, 0.865035, 1.15514e-06, 1)
 light_energy = 0.729
 
-[node name="HoneycombNavRegion" type="NavigationRegion3D" parent="."]
+[node name="HoneycombNavRegion" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("playerInterface")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.141014, 0.134727, -0.136139)
 navigation_mesh = SubResource("NavigationMesh_dmgc2")
 script = ExtResource("1_ajnq8")
 gridWidth = 75
 gridHeight = 60
+playerInterface = NodePath("../PlayerInterface")
 
 [node name="Units" type="Node3D" parent="."]
 
@@ -366,3 +396,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.4089, 1.91822, 30.1349)
 
 [node name="QueenBee" parent="." instance=ExtResource("17_mq21g")]
 transform = Transform3D(1.25228, 0, 1.55942, 0, 2, 0, -1.55942, 0, 1.25228, 71.67, 2, 43.4116)
+
+[connection signal="pressed" from="PlayerInterface/CanvasLayer/GameOverScreen/RestartButton" to="PlayerInterface" method="_on_restart_button_pressed"]

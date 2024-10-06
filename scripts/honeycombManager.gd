@@ -3,6 +3,7 @@ class_name HoneycombManager
 
 @export var gridWidth: int
 @export var gridHeight: int
+@export var playerInterface: Node
 var honeycomb: PackedScene = preload("res://scenes/honeycomb.tscn")
 
 func _ready():
@@ -24,6 +25,7 @@ func generateHoneycombs():
       var hex = hexToWorld(honeycombInstance)
       honeycombInstance.position = hex
       add_child(honeycombInstance)
+      honeycombInstance.honeyFull.connect(onHoneyFull)
 
 func hexToWorld(comb: Honeycomb) -> Vector3:
   var coords = comb.getCoords()
@@ -81,3 +83,6 @@ func getRandomHoneycombInRadius(pos: Vector3, radius: float, minDistance: float)
   if honeycombs.size() > 0:
     return honeycombs[randi() % honeycombs.size()]
   return null
+
+func onHoneyFull(amount: int) -> void:
+  playerInterface.setHoneyAmount(playerInterface.honeyAmount + amount)

@@ -2,6 +2,8 @@ extends Node2D
 
 @export var units: Node3D = null
 
+@onready var gameOverScreen: Control = $CanvasLayer/GameOverScreen
+
 @onready var playerCamera: Node3D = $CameraBase
 @onready var uiSelectBox: NinePatchRect = $UISelectBox
 const moduleCamera: GDScript = preload("res://scripts/moduleCamera.gd")
@@ -29,6 +31,11 @@ var highlightedHoneycomb: Honeycomb = null
 # Resources
 var honeyAmount: int = 0
 var nectarAmount: int = 0
+var beesCollecting: Array = []
+
+########################################################
+var beeCost: int = 8
+########################################################
 
 # UI Items
 @onready var honeyLabel: Label = $CanvasLayer/Panel/MarginContainer/HBoxContainer/ResourcesPanel/GridContainer/HoneyLabel
@@ -45,6 +52,8 @@ var honeyTimerMaxSeconds: float = 300.0
 var nectarTimerMaxSeconds: float = 20.0
 var beesTimerMaxSeconds: float = 15.0
 
+var honeyMakingMode: bool = false
+
 func _ready():
   initInterface()
   honeyTimer = Timer.new()
@@ -53,7 +62,10 @@ func _ready():
   add_child(honeyTimer)
   add_child(nectarTimer)
   add_child(beesTimer)
+  nectarProgressBar.value = 0
+  beesProgressBar.value = 0
   setHoneyTimer(honeyTimerMaxSeconds)
+  gameOverScreen.visible = false
 
 func initInterface() -> void:
   uiSelectBox.visible = false
@@ -109,7 +121,8 @@ func castBoxSelection(shift: bool) -> void:
 
   for unit in units.get_children():
     if dragRectangleArea.abs().has_point(playerCamera.getCameraSpaceFromWorldSpace(unit.transform.origin)):
-      selectionAddUnit(unit)
+      if unit.selectable:
+        selectionAddUnit(unit)
       selectQueen(false)
 
 func castSingleSelection(mousePos: Vector2, shift: bool) -> void:
@@ -121,8 +134,9 @@ func castSingleSelection(mousePos: Vector2, shift: bool) -> void:
     var unit2Dpos: Vector2 = playerCamera.getCameraSpaceFromWorldSpace(unit.transform.origin + Vector3(0, 1.5, -1))
 
     if (mousePos.distance_to(unit2Dpos) < 30):
+      if unit.selectable:
         selectionToggleUnit(unit)
-        selectQueen(false)
+      selectQueen(false)
     else:
       if highlightedHoneycomb != null:
         highlightedHoneycomb.setMaterialDefault()
@@ -169,6 +183,7 @@ func selectionClear() -> void:
   for unit in selectedUnits:
     unit.select(false)
   selectedUnits.clear()
+  honeyMakingMode = false
 
 func castHoneycombHighlight() -> void:
   if selectedUnits.size() == 0:
@@ -203,13 +218,22 @@ func castHoneycombHighlight() -> void:
       highlightedHoneycomb = null
 
 func buttonFlowerPressed() -> void:
-  print("Flower button pressed")
+  for unit in selectedUnits:
+    unit.collectNectar()
+    unit.select(false)
+    beesCollecting.append(unit)
+  setNectarTimer(nectarTimerMaxSeconds)
   
 func buttonHoneyPressed() -> void:
-  print("Honey button pressed")
+  if selectedUnits.size() > 0:
+    honeyMakingMode = true
+    var thisUnit = selectedUnits[0]
+    thisUnit.honeyMakingMode = true
 
 func buttonBeePressed() -> void:
-  setBeesTimer(beesTimerMaxSeconds)
+  if honeyAmount > beeCost:
+    setHoneyAmount(honeyAmount - beeCost)
+    setBeesTimer(beesTimerMaxSeconds)
 
 func updateButtons() -> void:
   if selectedUnits.size() > 0:
@@ -274,8 +298,9 @@ func setHoneyTimer(seconds: float) -> void:
 
 func onHoneyTimerTimeout() -> void:
   honeyTimer.stop()
-  get_tree().paused = true
-  # TODO Game over screen
+  
+  gameOverScreen.visible = true
+  gameOverScreen.get_node("GameOverLabel").text = "You Collected " + str(honeyAmount) + " Honey!"
 
 func updateHoneyProgress() -> void:
   honeyProgressBar.value = honeyTimer.time_left
@@ -289,7 +314,8 @@ func setNectarTimer(seconds: float) -> void:
 
 func onNectarTimerTimeout() -> void:
   nectarTimer.stop()
-  setNectarAmount(nectarAmount + 1)
+  for unit in beesCollecting:
+    unit.stopCollecting()
 
 func updateNectarProgress() -> void:
   nectarProgressBar.value = nectarProgressBar.max_value - nectarTimer.time_left
@@ -309,3 +335,9 @@ func onBeesTimerTimeout() -> void:
 
 func updateBeesProgress() -> void:
   beesProgressBar.value = beesProgressBar.max_value - beesTimer.time_left
+
+func onHoneyFull(amount: int) -> void:
+  setHoneyAmount(honeyAmount + amount)
+
+func _on_restart_button_pressed() -> void:
+  get_tree().reload_current_scene()
