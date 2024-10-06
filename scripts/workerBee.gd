@@ -4,9 +4,8 @@ const moduleCamera:GDScript = preload("res://scripts/moduleCamera.gd")
 @onready var navAgent:NavigationAgent3D = $NavigationAgent3D
 @onready var selectedSprite: Sprite3D = $Selected
 @onready var pathRecalcTimer: Timer = $PathRecalcTimer
-@onready var gravityRayCast: RayCast3D = $GravityRayCast
 
-var selected: bool = false
+var selected: bool = false    
 var navPathTarget: Vector3 = Vector3.ZERO
 var navTargetObject: Node3D = null
 
@@ -17,12 +16,17 @@ var stuckMax:int = 9
 var stuckCount:int = 0
 var lastPos:Vector3 = Vector3.ZERO
 
+var navLineMesh: MeshInstance3D = null
+
 func _ready() -> void:
   selectedSprite.visible = false
   navAgent.velocity_computed.connect(move)
   pathRecalcTimer.timeout.connect(navPathTimerUpdate)
   set_max_slides(2)
 
+  navLineMesh = MeshInstance3D.new()
+  navLineMesh.mesh = ImmediateMesh.new()
+  add_child(navLineMesh)
 
 func _input(event: InputEvent) -> void:
   if selected && Input.is_action_just_pressed("mouseRightClick"):
@@ -46,7 +50,9 @@ func _input(event: InputEvent) -> void:
     if hitObjectPos != Vector3.ZERO:
       navAgent.set_target_position(hitObjectPos)
       navPathTarget = hitObjectPos
+      clearTargetMaterial()
       navTargetObject = hitObject
+      setTargetMaterial()
 
 func _physics_process(delta: float) -> void:
   if navAgent.is_navigation_finished():
@@ -87,17 +93,34 @@ func stuckCheck() -> void:
     if stuckCount >= 3:
       if (global_position.distance_squared_to(navPathTarget) < 10.0 or stuckCount >= stuckMax):
         stuckCount = 0
-        navAgent.emit_signal("navigation_finished")
-        navAgent.set_target_position(global_position)
-        navPathTarget = Vector3.ZERO
+        cancelNavigation()
   lastPos = position
+
+func cancelNavigation() -> void:
+  navAgent.emit_signal("navigation_finished")
+  navAgent.set_target_position(global_position)
+  navPathTarget = Vector3.ZERO
+  clearTargetMaterial()
+  navTargetObject = null
 
 func select(isSelected: bool) -> void:
   if isSelected:
     selectedSprite.visible = true
     selected = true
+    setTargetMaterial()
   else:
     selectedSprite.visible = false
     selected = false
-    navPathTarget = Vector3.ZERO
-    navTargetObject = null # TODO udpate shaders
+    clearTargetMaterial()
+
+func setTargetMaterial() -> void:
+  if navTargetObject != null:
+    if navTargetObject is Honeycomb:
+      var honeycomb:Honeycomb = navTargetObject as Honeycomb
+      honeycomb.setMaterialNavSelected()
+
+func clearTargetMaterial() -> void:
+  if navTargetObject != null:
+    if navTargetObject is Honeycomb:
+      var honeycomb:Honeycomb = navTargetObject as Honeycomb
+      honeycomb.setMaterialTopDefault()

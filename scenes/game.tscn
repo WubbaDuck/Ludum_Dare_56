@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ti2j1t7sduip"]
+[gd_scene load_steps=12 format=3 uid="uid://ti2j1t7sduip"]
 
 [ext_resource type="Script" path="res://scripts/rtsCamera.gd" id="1_8au5g"]
 [ext_resource type="Script" path="res://scripts/honeycombManager.gd" id="1_ajnq8"]
@@ -6,10 +6,25 @@
 [ext_resource type="Texture2D" uid="uid://cpqbbe5eeicif" path="res://assets/selectionBox.png" id="2_joig7"]
 [ext_resource type="PackedScene" uid="uid://b5ascu6cvm5yk" path="res://scenes/workerBee.tscn" id="5_5sbcu"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4rxc2"]
+sky_top_color = Color(0.983529, 0.883367, 0.395964, 1)
+sky_horizon_color = Color(0.357713, 0.294987, 0.0189875, 1)
+sky_curve = 0.130583
+ground_bottom_color = Color(0.301113, 0.215533, 0.110032, 1)
+ground_horizon_color = Color(0.705711, 0.551306, 0.10728, 1)
+ground_curve = 0.105561
+
+[sub_resource type="Sky" id="Sky_kevoc"]
+sky_material = SubResource("ProceduralSkyMaterial_4rxc2")
+
 [sub_resource type="Environment" id="Environment_nnapm"]
-ambient_light_source = 3
+background_mode = 2
+background_energy_multiplier = 0.86
+sky = SubResource("Sky_kevoc")
+ambient_light_source = 2
 ambient_light_color = Color(0.960784, 0.937255, 0.490196, 1)
-ambient_light_energy = 0.75
+ambient_light_energy = 0.35
+glow_enabled = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_qcnho"]
 
@@ -18,6 +33,11 @@ ambient_light_energy = 0.75
 [sub_resource type="NavigationMesh" id="NavigationMesh_dmgc2"]
 
 [node name="Game" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nnapm")
+camera_attributes = SubResource("CameraAttributesPractical_qcnho")
+compositor = SubResource("Compositor_oxens")
 
 [node name="PlayerInterface" type="Node2D" parent="." node_paths=PackedStringArray("units")]
 script = ExtResource("1_jmxq8")
@@ -56,12 +76,8 @@ fov = 60.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, 0.590634, 0.80694, 0, -0.80694, 0.590634, 0, 10.1845, 15.1292)
-visible = false
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_nnapm")
-camera_attributes = SubResource("CameraAttributesPractical_qcnho")
-compositor = SubResource("Compositor_oxens")
+light_color = Color(0.877616, 0.865035, 1.15514e-06, 1)
+light_energy = 0.729
 
 [node name="HoneycombNavRegion" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.141014, 0.134727, -0.136139)

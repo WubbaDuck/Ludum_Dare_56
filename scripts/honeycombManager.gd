@@ -8,7 +8,7 @@ var honeycomb: PackedScene = preload("res://scenes/honeycomb.tscn")
 func _ready():
   # clearHoneycombs()
   generateHoneycombs()
-  for i in range(1000):
+  for i in range(2000):
     removeRandomHoneycomb()
 
   get_tree().process_frame.emit() # Force a frame to be processed so that the honeycombs are removed before we bake the navmesh

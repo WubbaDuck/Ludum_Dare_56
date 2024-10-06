@@ -1,12 +1,17 @@
 extends Node3D
 class_name Honeycomb
 
+@onready var honeycombTop: MeshInstance3D = $honeyComb/HoneycombTop
+@onready var honeycomb: MeshInstance3D = $honeyComb/Honeycomb
+@onready var topMaterialDefault: StandardMaterial3D = preload("res://materials/transparent.tres")
+@onready var topMaterialSelected: ShaderMaterial = preload("res://materials/honeycombSelected.tres")
+@onready var materialHighlight: ShaderMaterial = preload("res://materials/honeycombHighlight.tres")
+
 var coords: Vector2 = Vector2(0, 0)
 var hexRadius = 1
 var hexHeight = hexRadius * 2.0
 var hexWidth = hexHeight * sqrt(3) / 2.0
 var yOffset = 0.0
-
 
 func getCoords() -> Vector2:
   return coords
@@ -23,15 +28,14 @@ func getHeight() -> float:
 func getWidth() -> float:
   return hexWidth
 
-# func getBottomFaceVerts() -> Array:
-#   var offsets:Vector3 = Vector3(0, yOffset, 0)
-#   var pos:Vector3 = position
-#   var verts:Array = [
-#     Vector3(-hexWidth / 2.0, 0, -hexHeight / 2.0) + pos + offsets,
-#     Vector3(hexWidth / 2.0, 0, -hexHeight / 2.0) + pos + offsets,
-#     Vector3(hexWidth, 0, 0) + pos + offsets,
-#     Vector3(hexWidth / 2.0, 0, hexHeight / 2.0) + pos + offsets,
-#     Vector3(-hexWidth / 2.0, 0, hexHeight / 2.0) + pos + offsets,
-#     Vector3(-hexWidth, 0, 0) + pos + offsets
-#   ]
-#   return verts
+func setMaterialTopDefault() -> void:
+  honeycombTop.material_override = topMaterialDefault
+
+func setMaterialNavSelected() -> void:
+  honeycombTop.material_override = topMaterialSelected
+
+func setMaterialHighlight() -> void:
+  honeycomb.material_override = materialHighlight
+
+func setMaterialDefault() -> void:
+  honeycomb.material_override = null
