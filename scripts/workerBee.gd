@@ -4,6 +4,7 @@ const moduleCamera:GDScript = preload("res://scripts/moduleCamera.gd")
 @onready var navAgent:NavigationAgent3D = $NavigationAgent3D
 @onready var selectedSprite: Sprite3D = $Selected
 @onready var pathRecalcTimer: Timer = $PathRecalcTimer
+@onready var animationPlayer: AnimationPlayer = $workerBee/AnimationPlayer
 
 var selected: bool = false    
 var navPathTarget: Vector3 = Vector3.ZERO
@@ -27,6 +28,8 @@ func _ready() -> void:
   navLineMesh = MeshInstance3D.new()
   navLineMesh.mesh = ImmediateMesh.new()
   add_child(navLineMesh)
+
+  animationPlayer.play("Idle")
 
 func _input(event: InputEvent) -> void:
   if selected && Input.is_action_just_pressed("mouseRightClick"):

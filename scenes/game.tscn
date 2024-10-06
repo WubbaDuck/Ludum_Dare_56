@@ -22,7 +22,7 @@ background_mode = 2
 background_energy_multiplier = 0.86
 sky = SubResource("Sky_kevoc")
 ambient_light_source = 2
-ambient_light_color = Color(0.960784, 0.937255, 0.490196, 1)
+ambient_light_color = Color(0.990798, 0.987396, 0.849458, 1)
 ambient_light_energy = 0.35
 glow_enabled = true
 
